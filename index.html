@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jasa Pembuatan Website Profesional</title>
+  <!-- Import Google Fonts: Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <!-- Particles.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding-top: 70px; /* ruang untuk navbar fixed */
+      background: url('background.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    /* Particles background */
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 800;
+    }
+    /* Fixed Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.85);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    .navbar-brand, .nav-link {
+      color: #fff !important;
+    }
+    .nav-link:hover {
+      color: #ff6a00 !important;
+    }
+    /* Loading Screen (Mobile Legends Style) */
+    #loading-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #000, #111);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    #loading-screen .loader-logo {
+      font-size: 48px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #ff6a00;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.9); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(0.9); }
+    }
+    #loading-screen .progress-bar {
+      width: 80%;
+      height: 8px;
+      background: #333;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    #loading-screen .progress {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(45deg, #ff6a00, #00c6ff);
+      animation: loadProgress 3s ease-in-out forwards;
+    }
+    @keyframes loadProgress {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+    /* Canvas for Realistic Wind Effect */
+    #windCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 850;
+    }
+    /* Fade-in Animation for Content */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Hero Section */
+    header {
+      text-align: center;
+      padding: 100px 20px 60px;
+      position: relative;
+      z-index: 900;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.3);
+      z-index: -1;
+    }
+    header h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      background: linear-gradient(45deg, #ff6a00, #ee0979, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    /* Typing effect untuk subtitle */
+    .typing {
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid;
+      animation: typing 3s steps(30, end) infinite, blink-caret 0.75s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent; }
+      50% { border-color: #fff; }
+    }
+    header p {
+      font-size: 20px;
+      margin-bottom: 30px;
+      color: #fff;
+    }
+    .btn-custom {
+      background: linear-gradient(45deg, #ff6a00, #ee0979, #00c6ff);
+      border: none;
+      color: #fff;
+      padding: 10px 25px;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: transform 0.3s ease;
+    }
+    .btn-custom:hover {
+      transform: scale(1.05);
+    }
+    /* Sections */
+    section {
+      padding: 60px 20px;
+      position: relative;
+      z-index: 900;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 36px;
+      font-weight: 600;
+    }
+    .card {
+      background: rgba(0,0,0,0.65);
+      border: none;
+      margin-bottom: 30px;
+    }
+    .card h3 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: #ff6a00;
+    }
+    .card p {
+      font-size: 16px;
+      color: #fff;
+    }
+    /* Purchase Section */
+    #purchase {
+      background: rgba(0,0,0,0.8);
+      padding: 60px 20px;
+    }
+    .purchase-card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .purchase-card h3 {
+      margin-bottom: 15px;
+      color: #ff6a00;
+    }
+    .purchase-card ul {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+      margin-bottom: 15px;
+    }
+    .purchase-card ul li::before {
+      content: "✓ ";
+      color: #00c6ff;
+    }
+    /* Testimonials Section */
+    .testimonial {
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px;
+      font-style: italic;
+      position: relative;
+    }
+    .testimonial::before {
+      content: open-quote;
+      font-size: 40px;
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      color: #ff6a00;
+    }
+    .testimonial::after {
+      content: close-quote;
+      font-size: 40px;
+      position: absolute;
+      bottom: -10px;
+      right: 10px;
+      color: #ff6a00;
+    }
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 36px;
+      }
+      header p {
+        font-size: 16px;
+      }
+      .navbar-brand {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loader-logo">Loading...</div>
+    <div class="progress-bar"><div class="progress"></div></div>
+  </div>
+
+  <!-- Particles.js Background -->
+  <div id="particles-js"></div>
+
+  <!-- Canvas for Wind Effect -->
+  <canvas id="windCanvas"></canvas>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="#">Jasa Website Pro</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#services">Layanan</a></li>
+          <li class="nav-item"><a class="nav-link" href="#testimonials">Testimoni</a></li>
+          <li class="nav-item"><a class="nav-link" href="#purchase">Pembelian</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main id="main-content" class="fade-in">
+    <!-- Hero Section -->
+    <header>
+      <div class="hero-content">
+        <h1>Jasa Pembuatan Website Profesional</h1>
+        <p class="typing">Desain modern, animasi keren, fitur lengkap, dan interaktif.</p>
+        <a href="#services" class="btn-custom">Lihat Layanan</a>
+      </div>
+    </header>
+
+    <!-- Services Section -->
+    <section id="services">
+      <h2 class="section-title">Layanan Kami</h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 fade-in">
+            <div class="card p-3">
+              <h3>Desain Kustom</h3>
+              <p>Website dengan desain sesuai kebutuhan Anda, lengkap dengan animasi interaktif dan panel editing.</p>
+              <a href="#dmMkfahmi" data-bs-toggle="modal" class="btn-custom">DM mkfahmi</a>
+            </div>
+          </div>
+          <div class="col-md-4 fade-in">
+            <div class="card p-3">
+              <h3>Website Responsif</h3>
+              <p>Desain responsif untuk semua perangkat, mulai dari desktop hingga mobile.</p>
+              <a href="#dmItzforced" data-bs-toggle="modal" class="btn-custom">DM itzforced</a>
+            </div>
+          </div>
+          <div class="col-md-4 fade-in">
+            <div class="card p-3">
+              <h3>Fitur Lengkap</h3>
+              <p>Panel editing, custom CSS, dan integrasi API untuk kebutuhan website Anda.</p>
+              <a href="#purchase" class="btn-custom">Lihat Opsi Pembelian</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials">
+      <h2 class="section-title">Testimoni Klien</h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 fade-in">
+            <div class="testimonial">
+              <p>"Website yang dibuat sangat profesional dan interaktif. Animasi dan desainnya luar biasa!"</p>
+              <p><strong>- Client A</strong></p>
+            </div>
+          </div>
+          <div class="col-md-4 fade-in">
+            <div class="testimonial">
+              <p>"Fitur lengkap dan desain modern, sangat membantu bisnis online saya."</p>
+              <p><strong>- Client B</strong></p>
+            </div>
+          </div>
+          <div class="col-md-4 fade-in">
+            <div class="testimonial">
+              <p>"Responsive, cepat, dan animasinya memukau. Hasil kerja yang memuaskan!"</p>
+              <p><strong>- Client C</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Purchase Section -->
+    <section id="purchase">
+      <h2 class="section-title">Opsi Pembelian</h2>
+      <div class="container">
+        <div class="row">
+          <!-- Option for mkfahmi -->
+          <div class="col-md-6 fade-in">
+            <div class="purchase-card">
+              <h3>mkfahmi</h3>
+              <ul>
+                <li>Jasa pembuatan website dengan desain modern</li>
+                <li>Panel editing lengkap</li>
+                <li>Animasi interaktif & loading screen unik</li>
+                <li>Support via DM Discord</li>
+              </ul>
+              <a href="#dmMkfahmi" data-bs-toggle="modal" class="btn-custom">DM mkfahmi</a>
+            </div>
+          </div>
+          <!-- Option for itzforced -->
+          <div class="col-md-6 fade-in">
+            <div class="purchase-card">
+              <h3>itzforced</h3>
+              <ul>
+                <li>Pembuat website profile link profesional</li>
+                <li>Fitur kustomisasi mendalam</li>
+                <li>Desain premium & responsif</li>
+                <li>Support & konsultasi via DM Discord</li>
+              </ul>
+              <a href="#dmItzforced" data-bs-toggle="modal" class="btn-custom">DM itzforced</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- DM Modal for mkfahmi -->
+  <div class="modal fade" id="dmMkfahmi" tabindex="-1" aria-labelledby="dmMkfahmiLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="background: rgba(0,0,0,0.9); color: #fff;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dmMkfahmiLabel">Chat dengan mkfahmi</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="chatMkfahmi" style="height: 200px; overflow-y: auto; background: #111; padding: 10px; border-radius: 5px;"></div>
+          <input type="text" id="msgMkfahmi" class="form-control mt-2" placeholder="Tulis pesan...">
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="sendMkfahmi" class="btn btn-custom">Kirim Pesan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DM Modal for itzforced -->
+  <div class="modal fade" id="dmItzforced" tabindex="-1" aria-labelledby="dmItzforcedLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="background: rgba(0,0,0,0.9); color: #fff;">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dmItzforcedLabel">Chat dengan itzforced</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="chatItzforced" style="height: 200px; overflow-y: auto; background: #111; padding: 10px; border-radius: 5px;"></div>
+          <input type="text" id="msgItzforced" class="form-control mt-2" placeholder="Tulis pesan...">
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="sendItzforced" class="btn btn-custom">Kirim Pesan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Sembunyikan loading screen saat halaman sudah termuat
+    window.addEventListener('load', function() {
+      const loadingScreen = document.getElementById('loading-screen');
+      loadingScreen.style.transition = 'opacity 0.5s ease-out';
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+      document.getElementById('main-content').classList.add('visible');
+    });
+
+    // IntersectionObserver untuk animasi fade-in saat scroll
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = { threshold: 0.2, rootMargin: "0px 0px -50px 0px" };
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+    faders.forEach(fader => appearOnScroll.observe(fader));
+
+    // DM Chat Simulation for mkfahmi
+    document.getElementById('sendMkfahmi').addEventListener('click', function() {
+      const msgInput = document.getElementById('msgMkfahmi');
+      const chatBox = document.getElementById('chatMkfahmi');
+      if(msgInput.value.trim() !== "") {
+        const message = document.createElement('div');
+        message.textContent = "Anda: " + msgInput.value;
+        message.style.marginBottom = "10px";
+        chatBox.appendChild(message);
+        msgInput.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    });
+    // DM Chat Simulation for itzforced
+    document.getElementById('sendItzforced').addEventListener('click', function() {
+      const msgInput = document.getElementById('msgItzforced');
+      const chatBox = document.getElementById('chatItzforced');
+      if(msgInput.value.trim() !== "") {
+        const message = document.createElement('div');
+        message.textContent = "Anda: " + msgInput.value;
+        message.style.marginBottom = "10px";
+        chatBox.appendChild(message);
+        msgInput.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    });
+
+    // Initialize Particles.js
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": { "value": "#ffffff" },
+        "shape": {
+          "type": "circle",
+          "stroke": { "width": 0, "color": "#000000" }
+        },
+        "opacity": { "value": 0.5, "random": false },
+        "size": { "value": 3, "random": true },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": { "enable": true, "speed": 4, "direction": "none", "random": false, "straight": false, "bounce": false }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" }
+        },
+        "modes": {
+          "repulse": { "distance": 100 },
+          "push": { "particles_nb": 4 }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // Canvas for Realistic Wind Effect
+    const canvas = document.getElementById('windCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    // Create waves for wind simulation
+    const waves = [];
+    const numWaves = 3;
+    for(let i = 0; i < numWaves; i++){
+      waves.push({
+        amplitude: Math.random() * 20 + 10,
+        frequency: Math.random() * 0.01 + 0.005,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.02 + 0.01,
+        yOffset: Math.random() * canvas.height
+      });
+    }
+    function animateWind(){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+      waves.forEach(wave => {
+        ctx.beginPath();
+        for(let x = 0; x < canvas.width; x++){
+          let y = wave.amplitude * Math.sin(wave.frequency * x + wave.phase) + wave.yOffset;
+          if(x === 0){ ctx.moveTo(x, y); } else { ctx.lineTo(x, y); }
+        }
+        ctx.stroke();
+        wave.phase += wave.speed;
+      });
+      requestAnimationFrame(animateWind);
+    }
+    animateWind();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
